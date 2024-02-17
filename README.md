@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/TheLouisHong/Borderless-Fullscreen/assets/1916460/4f8bdfdb-2227-4146-be1f-c3d11073ab4f">
-    <img width=60% src="https://github.com/TheLouisHong/Borderless-Fullscreen/assets/1916460/9b081e6c-07bc-47a3-8e86-c4e32d2207fe">
+    <source media="(prefers-color-scheme: dark)" srcset="./bannger.png">
+    <img width=60% src="banner_dark.png">
   </picture>
 </p>
 
