@@ -1,5 +1,7 @@
+
+/* Based on the work of dekvall <https://github.com/dekvall/runelite-external-plugins/blob/fullscreen/src/main/java/dekvall/fullscreen/FullscreenPlugin.java> */
 /*
- * Copyright (c) 2020, dekvall <https://github.com/dekvall>
+ * Copyright (c) 2023, Louis Hong <https://github.com/TheLouisHong/Borderless-Fullscreen>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,8 +54,6 @@ import net.runelite.client.util.ImageUtil;
 @Slf4j
 public class BorderlessFullscreenPlugin extends Plugin
 {
-	@Inject
-	private BorderlessFullscreenConfig config;
 
 	@Inject
 	private BorderlessFullscreenHotkeyListener hotkeyListener;
@@ -63,9 +63,6 @@ public class BorderlessFullscreenPlugin extends Plugin
 
 	@Inject
 	private ClientUI clientUI;
-
-	@Inject
-	private ConfigManager configManager;
 
 	@Inject
 	private PluginManager pluginManager;
@@ -92,7 +89,7 @@ public class BorderlessFullscreenPlugin extends Plugin
 	}
 
 	@Override
-	protected void startUp() throws Exception
+	protected void startUp()
 	{
 		clientToolbar.addNavigation(buildEnableButton());
 		hotkeyListener.setEnabledOnLoginScreen(true);
@@ -101,8 +98,9 @@ public class BorderlessFullscreenPlugin extends Plugin
 		log.info("Fullscreen started!");
 
 	}
+
 	@Override
-	protected void shutDown() throws Exception
+	protected void shutDown()
 	{
 		if (enableFullscreenNavButton != null)
 		{
@@ -151,7 +149,7 @@ public class BorderlessFullscreenPlugin extends Plugin
 	protected void EnableFullScreen()
 	{
 		if (fullScreen)
-        {
+		{
 			log.error("Tried to enable fullscreen, but already in fullscreen mode.");
 			return;
 		}
@@ -210,7 +208,7 @@ public class BorderlessFullscreenPlugin extends Plugin
 		// remove the window decorations
 		clientFrame.setUndecorated(true);
 
-        // set the frame to be always on top
+		// set the frame to be always on top
 		clientFrame.setAlwaysOnTop(true);
 
 		// set the frame to be full screen
@@ -270,8 +268,6 @@ public class BorderlessFullscreenPlugin extends Plugin
 		clientFrame.pack();
 		clientFrame.setVisible(true);
 
-		Insets insets = clientFrame.getInsets();
-
 		setClientFrameSize(prevClientFrameBounds);
 
 		if (HdPlugin != null)
@@ -292,8 +288,9 @@ public class BorderlessFullscreenPlugin extends Plugin
 
 	}
 
-	private void setClientFrameSize(Rectangle frameBounds) {
-		clientFrame.setBounds(prevClientFrameBounds);
+	private void setClientFrameSize(Rectangle frameBounds)
+	{
+		clientFrame.setBounds(frameBounds);
 		clientFrame.revalidate();
 		clientFrame.pack();
 	}
@@ -318,7 +315,6 @@ public class BorderlessFullscreenPlugin extends Plugin
 	}
 
 
-
 	// Privileged access to other plugins through plugin manager
 	private Plugin stopPlugin(String pluginClassName)
 	{
@@ -331,13 +327,14 @@ public class BorderlessFullscreenPlugin extends Plugin
 				if (pluginManager.isPluginEnabled(plugin))
 				{
 					pluginManager.setPluginEnabled(plugin, false);
-                    try
-                    {
-                        pluginManager.stopPlugin(plugin);
-                    } catch (PluginInstantiationException e)
-                    {
-                        throw new RuntimeException(e);
-                    }
+					try
+					{
+						pluginManager.stopPlugin(plugin);
+					}
+					catch (PluginInstantiationException e)
+					{
+						throw new RuntimeException(e);
+					}
 					resultPlugin = plugin;
 				}
 			}
@@ -352,12 +349,12 @@ public class BorderlessFullscreenPlugin extends Plugin
 		try
 		{
 			pluginManager.startPlugin(plugin);
-		} catch (PluginInstantiationException e)
+		}
+		catch (PluginInstantiationException e)
 		{
 			throw new RuntimeException(e);
 		}
 	}
-
 
 
 }
