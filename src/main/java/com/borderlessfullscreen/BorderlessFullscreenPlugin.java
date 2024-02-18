@@ -148,6 +148,18 @@ public class BorderlessFullscreenPlugin extends Plugin
 
 	protected void EnableFullScreen()
 	{
+		Frame showError = Frame.getFrames()[0];
+
+		if (configManager.getConfig(RuneLiteConfig.class).enableCustomChrome())
+		{
+			log.info("You must disable custom chrome to enable fullscreen");
+			SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(showError,
+					"Please uncheck 'Enable custom window chrome' via the 'Runelite' plugin.",
+					"Disable Custom Chrome",
+					JOptionPane.ERROR_MESSAGE));
+			return;
+		}
+		
 		if (fullScreen)
 		{
 			log.error("Tried to enable fullscreen, but already in fullscreen mode.");
