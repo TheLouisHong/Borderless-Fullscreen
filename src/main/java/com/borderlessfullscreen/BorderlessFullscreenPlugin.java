@@ -30,11 +30,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
 import javax.inject.Inject;
+import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import com.google.inject.Provides;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.config.RuneLiteConfig;
 import net.runelite.client.input.KeyManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -54,8 +57,6 @@ import net.runelite.client.util.ImageUtil;
 @Slf4j
 public class BorderlessFullscreenPlugin extends Plugin
 {
-	@Inject
-	private ConfigManager configManager;
 
 	@Inject
 	private BorderlessFullscreenHotkeyListener hotkeyListener;
@@ -68,6 +69,9 @@ public class BorderlessFullscreenPlugin extends Plugin
 
 	@Inject
 	private PluginManager pluginManager;
+
+	@Inject
+	private ConfigManager configManager;
 
 	@Inject
 	private ClientToolbar clientToolbar;
@@ -91,14 +95,13 @@ public class BorderlessFullscreenPlugin extends Plugin
 	}
 
 	@Override
-	protected void startUp()
+	protected void startUp() throws Exception
 	{
 		clientToolbar.addNavigation(buildEnableButton());
 		hotkeyListener.setEnabledOnLoginScreen(true);
 		keyManager.registerKeyListener(hotkeyListener);
 
 		log.info("Fullscreen started!");
-
 	}
 
 	@Override
@@ -161,11 +164,12 @@ public class BorderlessFullscreenPlugin extends Plugin
 					JOptionPane.ERROR_MESSAGE));
 			return;
 		}
-		
+
 		if (fullScreen)
 		{
 			log.error("Tried to enable fullscreen, but already in fullscreen mode.");
 			return;
+
 		}
 
 		// Steal clientUI ContainableFrame through java.awt
