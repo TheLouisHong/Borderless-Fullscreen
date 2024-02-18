@@ -54,6 +54,8 @@ import net.runelite.client.util.ImageUtil;
 @Slf4j
 public class BorderlessFullscreenPlugin extends Plugin
 {
+	@Inject
+	private ConfigManager configManager;
 
 	@Inject
 	private BorderlessFullscreenHotkeyListener hotkeyListener;
