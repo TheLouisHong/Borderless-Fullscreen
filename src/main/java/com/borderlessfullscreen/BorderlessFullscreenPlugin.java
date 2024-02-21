@@ -159,8 +159,8 @@ public class BorderlessFullscreenPlugin extends Plugin
 		{
 			log.info("You must disable custom chrome to enable fullscreen");
 			SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(showError,
-					"Please uncheck 'Enable custom window chrome' via the 'Runelite' plugin.",
-					"Disable Custom Chrome",
+					"Please uncheck 'Enable custom window chrome' via the 'Runelite' plugin. You must disable custom chrome to enable fullscreen.",
+					"Borderless Fullscreen",
 					JOptionPane.ERROR_MESSAGE));
 			return;
 		}
