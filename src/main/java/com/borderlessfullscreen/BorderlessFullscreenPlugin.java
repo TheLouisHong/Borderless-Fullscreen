@@ -30,11 +30,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
 import javax.inject.Inject;
+import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import com.google.inject.Provides;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.config.RuneLiteConfig;
 import net.runelite.client.input.KeyManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -68,6 +71,9 @@ public class BorderlessFullscreenPlugin extends Plugin
 	private PluginManager pluginManager;
 
 	@Inject
+	private ConfigManager configManager;
+
+	@Inject
 	private ClientToolbar clientToolbar;
 
 	private ContainableFrame clientFrame = null;
@@ -89,14 +95,13 @@ public class BorderlessFullscreenPlugin extends Plugin
 	}
 
 	@Override
-	protected void startUp()
+	protected void startUp() throws Exception
 	{
 		clientToolbar.addNavigation(buildEnableButton());
 		hotkeyListener.setEnabledOnLoginScreen(true);
 		keyManager.registerKeyListener(hotkeyListener);
 
 		log.info("Fullscreen started!");
-
 	}
 
 	@Override
@@ -148,10 +153,23 @@ public class BorderlessFullscreenPlugin extends Plugin
 
 	protected void EnableFullScreen()
 	{
+		Frame showError = Frame.getFrames()[0];
+
+		if (configManager.getConfig(RuneLiteConfig.class).enableCustomChrome())
+		{
+			log.info("You must disable custom chrome to enable fullscreen");
+			SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(showError,
+					"Please uncheck 'Enable custom window chrome' via the 'Runelite' plugin.",
+					"Disable Custom Chrome",
+					JOptionPane.ERROR_MESSAGE));
+			return;
+		}
+
 		if (fullScreen)
 		{
 			log.error("Tried to enable fullscreen, but already in fullscreen mode.");
 			return;
+
 		}
 
 		// Steal clientUI ContainableFrame through java.awt
