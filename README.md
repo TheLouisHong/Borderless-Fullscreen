@@ -1,6 +1,6 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./bannger.png">
+    <source media="(prefers-color-scheme: dark)" srcset="./banner.png">
     <img width=60% src="banner_dark.png">
   </picture>
 </p>
