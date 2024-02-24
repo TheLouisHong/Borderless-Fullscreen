@@ -23,7 +23,7 @@ dependencies {
 	testImplementation group: 'net.runelite', name:'jshell', version: runeLiteVersion
 }
 
-group = 'com.borderlessfullscreen'
+group = 'com.fullscreen'
 version = '1.0'
 
 tasks.withType(JavaCompile) {
